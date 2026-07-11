@@ -16,6 +16,11 @@ This project is distributed under the MIT License.
 ## Configuring Position and Size (`SpaMinimap.ini`)
 
 ```ini
+[Circuit]
+OffsetX=0
+OffsetY=0
+OnTrackDistance=20
+
 [Map]
 PosX=-80
 PosY=0
@@ -27,6 +32,8 @@ Width=6
 Height=6
 ```
 
+* `OffsetX`/`OffsetY`: Circuit displacement.
+* `OnTrackDistance`: How close (in game units, approximately meters) the player needs to be of the circuit.
 * `PosX`/`PosY`: Top-left corner of the map on screen (reference resolution: 1280×720).
 * `Width`/`Height`: Size of the map on screen.
 * `[Pin] Width`/`Height`: Size of the position marker.
@@ -45,7 +52,6 @@ Copy the files into GTA V's `scripts/` folder:
 * `SpaMinimap.cs`
 * `SpaMinimap.ini`
 * `SpaMinimap/`
-
   * `spa.png`
   * `pin.png`
 
@@ -53,7 +59,7 @@ Requires the [Spa-Francorchamps 2025 by VSR Kevin](https://www.gta5-mods.com/map
 
 ## Behavior
 
-* The map **only appears when you are near the real circuit** (within 20 meters of the recorded racing line). Nothing is drawn outside the circuit area.
+* The map **only appears when you are near the real circuit**. Nothing is drawn outside the circuit area.
 * If you want the detection radius to be stricter or more permissive, adjust `ON_TRACK_DISTANCE` in `SpaMinimap.cs` (game units, approximately meters).
 
 ## Notes

@@ -16,6 +16,11 @@ Este proyecto se distribuye bajo la licencia MIT.
 ## Configurar posición y tamaño (`SpaMinimap.ini`)
 
 ```ini
+[Circuit]
+OffsetX=0
+OffsetY=0
+OnTrackDistance=20
+
 [Map]
 PosX=-80
 PosY=0
@@ -27,6 +32,8 @@ Width=6
 Height=6
 ```
 
+- `OffsetX`/`OffsetY`: Desplazamiento del circuito.
+- `OnTrackDistance`: Qué tan cerca (en unidades del juego, aproximadamente metros) necesita estar el jugador del circuito.
 - `PosX`/`PosY`: Esquina superior izquierda del mapa en pantalla (resolución de referencia 1280x720).
 - `Width`/`Height`: Tamaño del mapa en pantalla.
 - `[Pin] Width`/`Height`: Tamaño del punto que marca tu posición.
@@ -53,7 +60,7 @@ Requiere tener instalado el mapa [Spa-Francorchamps 2025 de VSR Kevin](https://w
 
 ## Comportamiento
 
-- El mapa **aparece solo cuando estás cerca del circuito real** (a menos de 20 metros del trazado). Fuera del circuito no se dibuja nada.
+- El mapa **aparece solo cuando estás cerca del circuito real**. Fuera del circuito no se dibuja nada.
 - Si quieres que el radio de detección sea más estricto o más permisivo, cambia `ON_TRACK_DISTANCE` en `SpaMinimap.cs` (está en unidades del juego, aproximadamente metros).
 
 ## Notas

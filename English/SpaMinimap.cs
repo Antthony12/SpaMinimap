@@ -27,11 +27,17 @@ public class SpaMinimap : Script
     private SizeF mapScreenSize = new SizeF(260, 260);
     private SizeF pinSize = new SizeF(6, 6);
 
+    // If the circuit mod moves in the GTA world (pure translation,
+    // without rotation), put here how much it has moved and the map will compensate automatically.
+    // Does not work if the circuit has also been rotated: in that case, the lap needs to be re-recorded.
+    private float worldOffsetX = 0f;
+    private float worldOffsetY = 0f;
+
     private const float CANVAS = 972f;
 
     // How close (in game units, approximately meters) the player needs to be
     // to the recorded line to be considered "on track". Adjust to your preference.
-    private const float ON_TRACK_DISTANCE = 20f;
+    private float ON_TRACK_DISTANCE = 20f;
 
     // --- World to pixel transformation of the spa.png canvas (972x972) ---
     // Derived from the bounding box of an actual recorded lap.
@@ -293,6 +299,9 @@ public class SpaMinimap : Script
         float h = GetIniFloat("Map", "Height", mapScreenSize.Height);
         float pinW = GetIniFloat("Pin", "Width", pinSize.Width);
         float pinH = GetIniFloat("Pin", "Height", pinSize.Height);
+        worldOffsetX = GetIniFloat("Circuit", "OffsetX", worldOffsetX);
+        worldOffsetY = GetIniFloat("Circuit", "OffsetY", worldOffsetY);
+        ON_TRACK_DISTANCE = GetIniFloat("Circuit", "OnTrackDistance", ON_TRACK_DISTANCE);
 
         mapScreenPos = new PointF(posX, posY);
         mapScreenSize = new SizeF(Math.Max(1f, w), Math.Max(1f, h));
@@ -330,16 +339,18 @@ public class SpaMinimap : Script
         if (!enabled)
             return;
 
-        var pos = Game.Player.Character.Position;
+        var rawPos = Game.Player.Character.Position;
+        float wx = rawPos.X - worldOffsetX;
+        float wy = rawPos.Y - worldOffsetY;
 
-        if (!IsNearTrack(pos.X, pos.Y))
+        if (!IsNearTrack(wx, wy))
             return;
 
         mapSprite.Draw();
 
         // World to pixel space of the 972x972 canvas, north pointing up, no rotation.
-        float px = OFF_X + (pos.X - MIN_X) * SCALE;
-        float py = CANVAS - OFF_Y - (pos.Y - MIN_Y) * SCALE;
+        float px = OFF_X + (wx - MIN_X) * SCALE;
+        float py = CANVAS - OFF_Y - (wy - MIN_Y) * SCALE;
 
         // Scale from the original 972x972 canvas to the map size on screen.
         float sx = mapScreenPos.X + (px / CANVAS) * mapScreenSize.Width;

@@ -6,7 +6,7 @@ A live minimap script for GTA V that tracks your position around <b>Spa-Francorc
 <b>Features</b>
 - <b>Accurate Track Layout</b>: <code>spa.png</code> is generated from real recorded telemetry, so the shape matches the actual circuit.
 - <b>Live Position Pin</b>: A marker tracks your car in real time as you drive.
-- <b>Auto Show/Hide</b>: The map only appears when you're near the real circuit (within 60m of the recorded line), just like the original Nurburgring mod, no clutter when you're elsewhere on the map.
+- <b>Auto Show/Hide</b>: The map only appears when you're near the real circuit, just like the original Nurburgring mod, no clutter when you're elsewhere on the map.
 - <b>Fully Configurable</b>: Map and pin position/size are set through <code>SpaMinimap.ini</code>, no need to touch the code.
 
 <b>Requirements</b>
@@ -22,6 +22,11 @@ A live minimap script for GTA V that tracks your position around <b>Spa-Francorc
 
 <b>Configuration (<code>SpaMinimap.ini</code>)</b>
 <pre>
+[Circuit]
+OffsetX=0
+OffsetY=0
+OnTrackDistance=20
+
 [Map]
 PosX=-80
 PosY=0
@@ -32,6 +37,8 @@ Height=400
 Width=6
 Height=6
 </pre>
+- <code>OffsetX</code>/<code>OffsetY</code>: Circuit displacement.
+- <code>OnTrackDistance</code>: How close (in game units, approximately meters) the player needs to be of the circuit.
 - <code>PosX</code>/<code>PosY</code>: top-left corner of the map on screen (reference resolution 1280x720).
 - <code>Width</code>/<code>Height</code>: map size on screen.
 - <code>[Pin] Width</code>/<code>Height</code>: size of the position marker.

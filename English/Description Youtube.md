@@ -15,7 +15,7 @@ https://github.com/Antthony12/SpaMinimap
 🗺️ Spa-Francorchamps 2025 map used in the video, by VSR Kevin:
 https://www.gta5-mods.com/maps/spa-francorchamps-2025-singleplayer-addon
 
-🙏 Inspired by nyconing's Nürburgring mod:
+🧾 Inspired by nyconing's Nürburgring mod:
 https://www.gta5-mods.com/scripts/vans123-s-nurburgring-nordschleife-minimap
 
 🎮 Also available for Le Mans (Circuit de la Sarthe):

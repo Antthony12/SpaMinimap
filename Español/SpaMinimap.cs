@@ -27,11 +27,17 @@ public class SpaMinimap : Script
     private SizeF mapScreenSize = new SizeF(260, 260);
     private SizeF pinSize = new SizeF(6, 6);
 
+    // Si el mod del circuito se mueve de sitio en el mundo de GTA (traslacion pura,
+    // sin rotar), pon aqui cuanto se ha desplazado y el mapa lo compensa solo.
+    // No sirve si ademas ha rotado el circuito: en ese caso hay que regrabar la vuelta.
+    private float worldOffsetX = 0f;
+    private float worldOffsetY = 0f;
+
     private const float CANVAS = 972f;
 
     // Qué tan cerca (en unidades del juego, aproximadamente metros) necesita estar el jugador
     // de la línea grabada para considerarse "en el circuito". Ajusta a tu gusto.
-    private const float ON_TRACK_DISTANCE = 20f;
+    private float ON_TRACK_DISTANCE = 20f;
 
     // --- Transformación mundo -> píxel del lienzo spa.png (972x972) ---
     // Derivada del bounding box de una vuelta grabada real.
@@ -293,6 +299,9 @@ public class SpaMinimap : Script
         float h = GetIniFloat("Map", "Height", mapScreenSize.Height);
         float pinW = GetIniFloat("Pin", "Width", pinSize.Width);
         float pinH = GetIniFloat("Pin", "Height", pinSize.Height);
+        worldOffsetX = GetIniFloat("Circuit", "OffsetX", worldOffsetX);
+        worldOffsetY = GetIniFloat("Circuit", "OffsetY", worldOffsetY);
+        ON_TRACK_DISTANCE = GetIniFloat("Circuit", "OnTrackDistance", ON_TRACK_DISTANCE);
 
         mapScreenPos = new PointF(posX, posY);
         mapScreenSize = new SizeF(Math.Max(1f, w), Math.Max(1f, h));
@@ -330,16 +339,18 @@ public class SpaMinimap : Script
         if (!enabled)
             return;
 
-        var pos = Game.Player.Character.Position;
+        var rawPos = Game.Player.Character.Position;
+        float wx = rawPos.X - worldOffsetX;
+        float wy = rawPos.Y - worldOffsetY;
 
-        if (!IsNearTrack(pos.X, pos.Y))
+        if (!IsNearTrack(wx, wy))
             return;
 
         mapSprite.Draw();
 
         // Mundo -> espacio de píxeles del lienzo 972x972, norte hacia arriba, sin rotación.
-        float px = OFF_X + (pos.X - MIN_X) * SCALE;
-        float py = CANVAS - OFF_Y - (pos.Y - MIN_Y) * SCALE;
+        float px = OFF_X + (wx - MIN_X) * SCALE;
+        float py = CANVAS - OFF_Y - (wy - MIN_Y) * SCALE;
 
         // Escala del lienzo de origen 972x972 al tamaño del mapa en pantalla.
         float sx = mapScreenPos.X + (px / CANVAS) * mapScreenSize.Width;
